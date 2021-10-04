@@ -1,0 +1,24 @@
+{
+  "name": "dino-game",
+  "version": "1.0.0",
+  "description": "",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kks2139/dino-game.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kks2139/dino-game/issues"
+  },
+  "homepage": "https://github.com/kks2139/dino-game#readme",
+  "dependencies": {
+    "webpack": "^5.56.1",
+    "webpack-cli": "^4.8.0",
+    "webpack-dev-server": "^4.3.0"
+  }
+}
