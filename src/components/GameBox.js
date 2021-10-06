@@ -1,24 +1,75 @@
 class GameBox {
     constructor({targ}){
         this.ROOT = document.createElement('div');
-        this.ROOT.classList.add('.GameBox');
+        this.ROOT.classList.add('GameBox');
         targ.appendChild(this.ROOT);
-
+        
         this.render();
+
+        // 기본값
+        this.base = 250;
+        this.canvas = this.ROOT.querySelector('#canvas');
+        this.ctx = this.canvas.getContext('2d');
+        this.dino = new Dino(this);
+        this.timer = 0;
+        this.cactusList = [];
+
+        this.drawGame();
     }
 
     drawGame = ()=>{
-        const canvas = this.ROOT.querySelector('#canvas');
-        const ctx = canvas.getContext('2d');
-        ctx.fillStyle = 'white';
-        ctx.fillRect(10, 100, 100, 50);
+        this.doFrame();
     }
 
+    doFrame = ()=>{
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.dino.draw();
+        
+        this.timer++;
+        if(this.timer % 120 === 0){
+            const cactus = new Cactus(this);
+            this.cactusList.push(cactus);
+        }
+        this.cactusList.forEach((c)=>{
+            c.x--;
+            c.draw();
+        });
+
+        requestAnimationFrame(this.doFrame);
+    }
+    
     render = ()=>{
         this.ROOT.innerHTML = `
-            <canvas id='canvas' width='500' height='300'></canvas>
+            <canvas id='canvas' width='800' height='300'></canvas>
         `;
-        this.drawGame();
+    }
+}
+
+class Dino {
+    constructor({ctx, base}){
+        this.ctx = ctx;
+        this.width = 50;
+        this.height = 50;
+        this.x = 30;
+        this.y = base - this.height;
+    }
+    draw = ()=>{
+        this.ctx.fillStyle = 'white';
+        this.ctx.fillRect(this.x, this.y, this.width, this.height);
+    }
+}
+
+class Cactus {
+    constructor({ctx, base}){
+        this.ctx = ctx;
+        this.width = 40;
+        this.height = 60;
+        this.x = 700;
+        this.y = base - this.height;
+    }
+    draw = ()=>{
+        this.ctx.fillStyle = 'lime';
+        this.ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 }
 
