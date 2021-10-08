@@ -1,4 +1,5 @@
 import GameInfo from "./GameInfo.js";
+import Pause from "./Pause.js";
 
 class GameBox {
     constructor({targ}){
@@ -11,12 +12,6 @@ class GameBox {
         this.drawGame();
     }
 
-    keyInput = (e)=>{
-        if(e.code === 'Space'){
-
-        }
-    }
-
     drawGame = ()=>{
         // 기본값tpxl
         this.base = 250;
@@ -26,6 +21,9 @@ class GameBox {
         this.timer = 0;
         this.cactusList = [];
         this.frameId = null;
+        this.jumpTop = 70;
+        this.isJumping = false;
+        this.isTop = false;
         this.doFrame();
     }
 
@@ -34,24 +32,54 @@ class GameBox {
         this.dino.draw();
         this.timer++;
 
+        // 점수 카운팅
         if(this.timer % 20 === 0){
             this.GameInfo.setData({
                 score: this.GameInfo.data.score + 1 
             });
         }
+        // 점프 처리
+        if(this.isJumping){
+            this.distance = this.dino.y - this.jumpTop;
+            if(!this.isTop){
+                this.dino.y -= this.calculateJumpSpeed('up');
+                if(this.dino.y < this.jumpTop){
+                    this.isTop = true;
+                }
+            }else{
+                this.dino.y += this.calculateJumpSpeed('down');
+                if(this.dino.y >= this.base - this.dino.height){
+                    this.dino.y = this.base - this.dino.height;
+                    this.isJumping = false;
+                    this.isTop = false;
+                }
+            }
+        }
+        // 선인장 생성
         if(this.timer % 100 === 0){
             const cactus = new Cactus(this);
             this.cactusList.push(cactus);
         }
+        // 선인장 이동
         this.cactusList.forEach((c, i, arr)=>{
+            c.draw();
             c.x -= 3;
-            if(c.x < -30){
+            if(c.x < -350){
                 arr.splice(i, 1);
             }
-            c.draw();
         });
 
         this.frameId = requestAnimationFrame(this.doFrame);
+    }
+
+    calculateJumpSpeed = (type)=>{
+        if(type === 'up'){
+            return Math.floor(this.distance / 6) || 1;
+        }else{
+            const res = Math.abs(this.distance) + 1;
+            if(res > 7) return 7;
+            else return res
+        }
     }
 
     onClickButton = (e)=>{
@@ -67,12 +95,22 @@ class GameBox {
             this.drawGame();
         }else if(type === 'stop'){
             if(this.frameId){
+                this.Pause.show(true);
                 el.textContent = '재시작';
                 cancelAnimationFrame(this.frameId);
                 this.frameId = null;
             }else{
+                this.Pause.show(false);
                 el.textContent = '멈추기';
                 this.doFrame();
+            }
+        }
+    }
+
+    keyInput = (e)=>{
+        if(e.code === 'Space'){
+            if(!this.isJumping){
+                this.isJumping = true;
             }
         }
     }
@@ -90,6 +128,9 @@ class GameBox {
             </div>
         `;
         this.ROOT.appendChild(canvasBox);
+        this.Pause = new Pause({
+            targ: canvasBox
+        });
         if(!document.body.onkeydown){
             document.body.onkeydown = this.keyInput;
         }
@@ -113,9 +154,9 @@ class Dino {
 class Cactus {
     constructor({ctx, base}){
         this.ctx = ctx;
-        this.width = 40;
+        this.width = 30;
         this.height = 60;
-        this.x = 700;
+        this.x = 800;
         this.y = base - this.height;
     }
     draw = ()=>{

@@ -1,10 +1,11 @@
 :root {
     --color-main: rgb(0, 255, 200);
+    --color-dark: rgb(51, 51, 51);
     --radius: 7px;
 }
 
 body {
-    background-color: rgb(51, 51, 51);
+    background-color: var(--color-dark);
     color: white;
     margin: 0;
 }
@@ -44,6 +45,7 @@ body {
 
 .GameInfo .menu-box .buttons .btn {
     width: fit-content;
+    font-weight: bold;
     padding: 5px 10px;
     margin-left: 15px;
     border: 1px solid var(--color-main);
@@ -53,7 +55,8 @@ body {
 }
 
 .GameInfo .menu-box .buttons .btn:hover {
-    box-shadow: 0 0 0 2px var(--color-main);
+    background-color: var(--color-main);
+    color: var(--color-dark);
 }
 
 /* GameBox */
@@ -62,7 +65,39 @@ body {
 }
 
 .GameBox .canvas-box {
+    position: relative;
     border: 1px solid var(--color-main);
     border-radius: var(--radius);
     box-shadow: 0 0 8px 0 var(--color-main);
 }
+
+.Pause {
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: var(--radius);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Pause .bars {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Pause .bars div {
+    width: 15px;
+    height: 45px;
+    background-color: white;
+    margin: 0 5px;
+}
+
+
+
+
