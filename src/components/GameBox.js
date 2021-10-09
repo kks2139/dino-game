@@ -67,9 +67,23 @@ class GameBox {
             if(c.x < -350){
                 arr.splice(i, 1);
             }
+            // 충돌 체크
+            this.isCollision(c);
         });
 
         this.frameId = requestAnimationFrame(this.doFrame);
+    }
+
+    isCollision = (object)=>{
+        const dinoX = this.dino.x + (this.dino.width / 2);
+        const dinoY = this.dino.y + (this.dino.height / 2);
+        if(dinoX > object.x && dinoX < object.x + object.width &&
+            dinoY > object.y && dinoY < object.y + object.height){
+                const ret = window.alert('게임오버');
+                if(ret){
+                    this.restart();
+                }
+        }
     }
 
     calculateJumpSpeed = (type)=>{
@@ -78,8 +92,17 @@ class GameBox {
         }else{
             const res = Math.abs(this.distance) + 1;
             if(res > 7) return 7;
-            else return res
+            else return res;
         }
+    }
+
+    restart = ()=>{
+        cancelAnimationFrame(this.frameId);
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.GameInfo.setData({
+            score: 0 
+        });
+        this.drawGame();
     }
 
     onClickButton = (e)=>{
@@ -87,12 +110,7 @@ class GameBox {
         const type = el.dataset.type;
 
         if(type === 'reset'){
-            cancelAnimationFrame(this.frameId);
-            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            this.GameInfo.setData({
-                score: 0 
-            });
-            this.drawGame();
+            this.restart();
         }else if(type === 'stop'){
             if(this.frameId){
                 this.Pause.show(true);
@@ -108,10 +126,12 @@ class GameBox {
     }
 
     keyInput = (e)=>{
-        if(e.code === 'Space'){
+        if(e.code === 'Space' || e.code === 'ArrowUp'){
             if(!this.isJumping){
                 this.isJumping = true;
             }
+        }else if(e.code === 'ArrowDown'){
+            // 엎드리기 
         }
     }
     
