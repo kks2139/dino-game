@@ -5,7 +5,12 @@ class Pause{
     
     show = (bool)=>{
         if(bool) this.render();
-        else this.target.removeChild(this.ROOT);
+        else {
+            if(this.ROOT){
+                this.target.removeChild(this.ROOT);
+                this.ROOT = null;
+            }
+        };
     }
     
     render = ()=>{

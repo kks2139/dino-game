@@ -1,7 +1,13 @@
 import GameInfo from "./GameInfo.js";
 import Pause from "./Pause.js";
 
+const obj = {
+    c: 1
+}
+
+
 class GameBox {
+    count = 0;
     constructor({targ}){
         this.ROOT = document.createElement('div');
         this.ROOT.classList.add('GameBox');
@@ -13,7 +19,7 @@ class GameBox {
     }
 
     drawGame = ()=>{
-        // 기본값tpxl
+        // 기본값 세팅
         this.base = 250;
         this.canvas = this.ROOT.querySelector('#canvas');
         this.ctx = this.canvas.getContext('2d');
@@ -79,10 +85,11 @@ class GameBox {
         const dinoY = this.dino.y + (this.dino.height / 2);
         if(dinoX > object.x && dinoX < object.x + object.width &&
             dinoY > object.y && dinoY < object.y + object.height){
-                const ret = window.alert('게임오버');
-                if(ret){
-                    this.restart();
-                }
+                // const ret = window.alert('게임오버');
+                // if(ret){
+                //     this.restart();
+                // }
+                this.restart();
         }
     }
 
@@ -99,10 +106,13 @@ class GameBox {
     restart = ()=>{
         cancelAnimationFrame(this.frameId);
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.GameInfo.setData({
-            score: 0 
-        });
         this.drawGame();
+        this.Pause.show(false);
+        this.GameInfo.setData({
+            score: 0,
+            btn1: '처음부터',
+             btn2: '멈추기'
+        });
     }
 
     onClickButton = (e)=>{
@@ -114,12 +124,12 @@ class GameBox {
         }else if(type === 'stop'){
             if(this.frameId){
                 this.Pause.show(true);
-                el.textContent = '재시작';
+                this.GameInfo.setData({btn2 : '재시작'});
                 cancelAnimationFrame(this.frameId);
                 this.frameId = null;
             }else{
                 this.Pause.show(false);
-                el.textContent = '멈추기';
+                this.GameInfo.setData({btn2 : '멈추기'});
                 this.doFrame();
             }
         }
