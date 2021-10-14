@@ -1,4 +1,5 @@
 import GameBox from "./components/GameBox";
+import HistoryBox from "./components/HistoryBox";
 
 class App {
     constructor(targ){
@@ -8,9 +9,17 @@ class App {
         this.render();
     }
 
+    gameFinished = (score)=>{
+
+    }
+
     render = ()=>{
-        this.GameBox = new GameBox({
+        this.HistoryBox = new HistoryBox({
             targ: this.ROOT
+        });
+        this.GameBox = new GameBox({
+            targ: this.ROOT,
+            gameFinished: this.gameFinished
         });
     }
 }

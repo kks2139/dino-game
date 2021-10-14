@@ -1,18 +1,17 @@
 import GameInfo from "./GameInfo.js";
 import Pause from "./Pause.js";
-
-const obj = {
-    c: 1
-}
-
+import ConfirmBox from "./ConfirmBox.js";
 
 class GameBox {
-    count = 0;
-    constructor({targ}){
+    constructor({targ, gameFinished}){
+        this.gameFinished = gameFinished;
         this.ROOT = document.createElement('div');
         this.ROOT.classList.add('GameBox');
         targ.appendChild(this.ROOT);
-        this.score = 0;
+        this.ConfirmBox = new ConfirmBox({
+            msg: '다시 시작할까요?',
+            ok: this.restart 
+        });
 
         this.render();
         this.drawGame();
@@ -67,6 +66,7 @@ class GameBox {
             this.cactusList.push(cactus);
         }
         // 선인장 이동
+        let collision = false;
         this.cactusList.forEach((c, i, arr)=>{
             c.draw();
             c.x -= 3;
@@ -74,23 +74,25 @@ class GameBox {
                 arr.splice(i, 1);
             }
             // 충돌 체크
-            this.isCollision(c);
+            if(this.isCollision(c)){
+                this.stop();
+                this.ConfirmBox.show();
+                collision = true;
+            }
         });
 
-        this.frameId = requestAnimationFrame(this.doFrame);
+        if(!collision){
+            this.frameId = requestAnimationFrame(this.doFrame);
+        }
     }
 
     isCollision = (object)=>{
         const dinoX = this.dino.x + (this.dino.width / 2);
         const dinoY = this.dino.y + (this.dino.height / 2);
-        if(dinoX > object.x && dinoX < object.x + object.width &&
-            dinoY > object.y && dinoY < object.y + object.height){
-                // const ret = window.alert('게임오버');
-                // if(ret){
-                //     this.restart();
-                // }
-                this.restart();
-        }
+        return (
+            dinoX > object.x && dinoX < object.x + object.width &&
+            dinoY > object.y && dinoY < object.y + object.height
+        );
     }
 
     calculateJumpSpeed = (type)=>{
@@ -103,8 +105,13 @@ class GameBox {
         }
     }
 
-    restart = ()=>{
+    stop = ()=>{
         cancelAnimationFrame(this.frameId);
+        this.frameId = null;
+    }
+
+    restart = ()=>{
+        this.stop();
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.drawGame();
         this.Pause.show(false);
@@ -113,6 +120,7 @@ class GameBox {
             btn1: '처음부터',
              btn2: '멈추기'
         });
+        this.gameFinished(this.score);
     }
 
     onClickButton = (e)=>{
@@ -125,8 +133,7 @@ class GameBox {
             if(this.frameId){
                 this.Pause.show(true);
                 this.GameInfo.setData({btn2 : '재시작'});
-                cancelAnimationFrame(this.frameId);
-                this.frameId = null;
+                this.stop();
             }else{
                 this.Pause.show(false);
                 this.GameInfo.setData({btn2 : '멈추기'});
