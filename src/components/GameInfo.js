@@ -20,10 +20,12 @@ class GameInfo {
         this.btn2.textContent = this.data.btn2;
     }
 
+    getScore = ()=> this.data.score;
+
     render = ()=>{
         this.ROOT.innerHTML = `
             <div class='menu-box'>
-                <div class='score'>Score : <span>${this.data.score}</span></div>
+                <div class='score'>점수 : <span>${this.data.score}</span></div>
                 <div class='buttons'>
                     <div class='btn' data-type='reset'>${this.data.btn1}</div>
                     <div class='btn' data-type='stop'>${this.data.btn2}</div>

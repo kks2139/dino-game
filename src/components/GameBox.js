@@ -1,6 +1,7 @@
 import GameInfo from "./GameInfo.js";
 import Pause from "./Pause.js";
 import ConfirmBox from "./ConfirmBox.js";
+import UT from '../utils/util.js';
 
 class GameBox {
     constructor({targ, gameFinished}){
@@ -61,7 +62,7 @@ class GameBox {
             }
         }
         // 선인장 생성
-        if(this.timer % 100 === 0){
+        if(UT.rand(80) === 1){
             const cactus = new Cactus(this);
             this.cactusList.push(cactus);
         }
@@ -69,7 +70,7 @@ class GameBox {
         let collision = false;
         this.cactusList.forEach((c, i, arr)=>{
             c.draw();
-            c.x -= 3;
+            c.x -= 5;
             if(c.x < -350){
                 arr.splice(i, 1);
             }
@@ -83,6 +84,9 @@ class GameBox {
 
         if(!collision){
             this.frameId = requestAnimationFrame(this.doFrame);
+        }else{
+            // 충돌.. 게임끝
+            this.gameFinished(this.GameInfo.getScore());
         }
     }
 
@@ -120,7 +124,6 @@ class GameBox {
             btn1: '처음부터',
              btn2: '멈추기'
         });
-        this.gameFinished(this.score);
     }
 
     onClickButton = (e)=>{

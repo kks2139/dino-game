@@ -10,7 +10,11 @@ class App {
     }
 
     gameFinished = (score)=>{
-
+        if(score){
+            const now = new Date();
+            sessionStorage.setItem(`dino_${now.toLocaleString()}`, `${score}/(${now.toLocaleString()})`);
+            this.HistoryBox.refresh();
+        }
     }
 
     render = ()=>{

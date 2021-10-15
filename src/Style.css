@@ -14,6 +14,21 @@ body {
     box-sizing: border-box;
 }
 
+::-webkit-scrollbar {
+    width: 5px;
+}
+::-webkit-scrollbar-thumb {
+    background-color: var(--color-main);
+    border-radius: 15px;
+    background-clip: padding-box;
+    border: 1px solid transparent;
+}
+::-webkit-scrollbar-track {
+    background-color: rgb(99, 99, 99);
+    border-radius: 10px;
+    box-shadow: inset 0px 0px 3px transparent;
+}
+
 .App {
     min-height: 100vh;
     display: flex;
@@ -35,7 +50,7 @@ body {
 
 .GameInfo .menu-box .score {
     font-weight: bold;
-    font-size: 20px;
+    font-size: 22px;
     color: var(--color-main);
 }
 
@@ -164,34 +179,59 @@ body {
 .HistoryBox {
     z-index: 10;
     position: fixed;
-    top: 0;
+    top: 20px;
     left: 50%;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 500px;
-    height: 150px;
     transform: translateX(-50%);
-    border: 1px solid red;
+    /* border: 1px solid red; */
 }
 
 .HistoryBox .top {
-    font-size: 22px;
+    font-size: 18px;
     font-weight: bold;
     color: var(--color-main);
-    border: 1px solid blue;
+    margin-bottom: 10px;
+    /* border: 1px solid blue; */
 }
 
 .HistoryBox .slider {
-    flex-grow: 1;
-    overflow: hidden;
-    border: 1px solid yellow;
+    max-height: 120px;
+    overflow: auto;
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    /* border: 1px solid yellow; */
+}
+
+.HistoryBox .slider .content {
+    display: flex;
+}
+.HistoryBox .slider .score {
+    min-width: 35px;
+    color: var(--color-main);
 }
 
 .HistoryBox .slider > div {
-    text-align: center;
+    height: 25px;
+    text-align: left;
+    padding-right: 7px;
+}
+ 
+.HistoryBox .btn-clear {
+    background-color: var(--color-main);
+    border: 1px solid var(--color-main);
+    font-weight: bold;
+    font-size: 13px;
+    color: black;
+    padding: 3px 10px;
+    border-radius: var(--radius);
+    transition: .3s;
+    cursor: pointer;
 }
 
-@keyframes slide {
-
+.HistoryBox .btn-clear:hover {
+    transform: translateY(-2px);
 }
