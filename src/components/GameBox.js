@@ -2,6 +2,8 @@ import GameInfo from "./GameInfo.js";
 import Pause from "./Pause.js";
 import ConfirmBox from "./ConfirmBox.js";
 import UT from '../utils/util.js';
+import dinoImg from '../img/dino.png';
+import cactusImg from '../img/cactus.png';
 
 class GameBox {
     constructor({targ, gameFinished}){
@@ -62,7 +64,7 @@ class GameBox {
             }
         }
         // 선인장 생성
-        if(UT.rand(80) === 1){
+        if(UT.rand(100) === 1){
             const cactus = new Cactus(this);
             this.cactusList.push(cactus);
         }
@@ -70,7 +72,7 @@ class GameBox {
         let collision = false;
         this.cactusList.forEach((c, i, arr)=>{
             c.draw();
-            c.x -= 5;
+            c.x -= 4;
             if(c.x < -350){
                 arr.splice(i, 1);
             }
@@ -180,28 +182,36 @@ class GameBox {
 class Dino {
     constructor({ctx, base}){
         this.ctx = ctx;
-        this.width = 50;
-        this.height = 50;
+        this.width = 55;
+        this.height = 55;
         this.x = 30;
         this.y = base - this.height;
     }
     draw = ()=>{
         this.ctx.fillStyle = 'white';
-        this.ctx.fillRect(this.x, this.y, this.width, this.height);
+        // this.ctx.fillRect(this.x, this.y, this.width, this.height);
+
+        const img = new Image();
+        img.src = dinoImg;
+        this.ctx.drawImage(img, this.x, this.y, this.width, this.height);
     }
 }
 
 class Cactus {
     constructor({ctx, base}){
         this.ctx = ctx;
-        this.width = 30;
-        this.height = 60;
+        this.width = 35;
+        this.height = 65;
         this.x = 800;
         this.y = base - this.height;
     }
     draw = ()=>{
         this.ctx.fillStyle = 'lime';
-        this.ctx.fillRect(this.x, this.y, this.width, this.height);
+        //this.ctx.fillRect(this.x, this.y, this.width, this.height);
+
+        const img = new Image();
+        img.src = cactusImg;
+        this.ctx.drawImage(img, this.x, this.y, this.width, this.height);
     }
 }
 

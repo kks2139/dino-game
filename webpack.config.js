@@ -24,6 +24,10 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [MiniCssExtractPlugin.loader, 'css-loader'] // mini-css 플러그인을 style-loader 자리에 대신 써준다. 
+            },
+            {
+                test: /\.(png|jpg)$/,
+                use: ['file-loader']
             }
         ]
     },
