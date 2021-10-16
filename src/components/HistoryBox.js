@@ -46,7 +46,10 @@ class HistoryBox {
             </div>
             ${this.data.histList.length > 0 ? `<div class='btn-clear' data-name='clear'>초기화</div>` : ''}
         `;
-        this.ROOT.querySelector('[data-name=clear]').onclick = this.onClickClear;
+        const btnClear = this.ROOT.querySelector('[data-name=clear]');
+        if(btnClear){
+            btnClear.onclick = this.onClickClear;
+        }
     }
 }
 
