@@ -34,7 +34,7 @@ class HistoryBox {
     render = ()=>{
         this.ROOT.innerHTML = `
             <div class='top'>
-                최고점수 : ${this.data.topScore}
+                Top : ${this.data.topScore}
             </div>
             <div class='slider'>
                 ${this.data.histList.map(s => (`

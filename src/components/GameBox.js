@@ -41,7 +41,7 @@ class GameBox {
         this.timer++;
 
         // 점수 카운팅
-        if(this.timer % 20 === 0){
+        if(this.timer % 10 === 0){
             this.GameInfo.setData({
                 score: this.GameInfo.data.score + 1 
             });
@@ -89,6 +89,9 @@ class GameBox {
         }else{
             // 충돌.. 게임끝
             this.gameFinished(this.GameInfo.getScore());
+            this.GameInfo.setData({
+                disabledBtn2: true
+            });
         }
     }
 
@@ -103,7 +106,7 @@ class GameBox {
 
     calculateJumpSpeed = (type)=>{
         if(type === 'up'){
-            return Math.floor(this.distance / 6) || 1;
+            return Math.floor(this.distance / 4) || 1;
         }else{
             const res = Math.abs(this.distance) + 1;
             if(res > 7) return 7;
@@ -124,7 +127,8 @@ class GameBox {
         this.GameInfo.setData({
             score: 0,
             btn1: '처음부터',
-             btn2: '멈추기'
+            btn2: '멈추기',
+            disabledBtn2: false
         });
     }
 
@@ -137,7 +141,10 @@ class GameBox {
         }else if(type === 'stop'){
             if(this.frameId){
                 this.Pause.show(true);
-                this.GameInfo.setData({btn2 : '재시작'});
+                this.GameInfo.setData({
+                    btn2 : '재시작',
+                    disabledBtn2: false
+                });
                 this.stop();
             }else{
                 this.Pause.show(false);

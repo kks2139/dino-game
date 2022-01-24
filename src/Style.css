@@ -14,6 +14,11 @@ body {
     box-sizing: border-box;
 }
 
+button {
+    background-color: transparent;
+    margin: 0;
+}
+
 ::-webkit-scrollbar {
     width: 5px;
 }
@@ -54,6 +59,11 @@ body {
     color: var(--color-main);
 }
 
+.GameInfo .menu-box .score span {
+    font-size: 30px;
+    color: white;
+}
+
 .GameInfo .menu-box .buttons {
     display: flex;
 }
@@ -65,8 +75,17 @@ body {
     margin-left: 15px;
     border: 1px solid var(--color-main);
     border-radius: var(--radius);
+    color: white;
     cursor: pointer;
-    transition: .2s;
+}
+
+.GameInfo .menu-box .buttons .btn:disabled {
+    filter: brightness(0.5);
+    cursor: unset;
+}
+.GameInfo .menu-box .buttons .btn:disabled:hover {
+    background-color: transparent;
+    color: white;
 }
 
 .GameInfo .menu-box .buttons .btn:hover {
@@ -120,7 +139,7 @@ body {
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 .ConfirmBox .msg-box {
@@ -135,6 +154,7 @@ body {
     border-radius: var(--radius);
     background-color: rgb(80, 80, 80);
     box-shadow: 0 0 7px 0 var(--color-main);
+    animation: showup 1.5s;
 }
 
 .ConfirmBox .msg-box .msg {
@@ -190,7 +210,7 @@ body {
 }
 
 .HistoryBox .top {
-    font-size: 18px;
+    font-size: 28px;
     font-weight: bold;
     color: var(--color-main);
     margin-bottom: 10px;
@@ -198,7 +218,7 @@ body {
 }
 
 .HistoryBox .slider {
-    max-height: 120px;
+    max-height: 150px;
     overflow: auto;
     font-size: 15px;
     font-weight: bold;
@@ -234,4 +254,10 @@ body {
 
 .HistoryBox .btn-clear:hover {
     transform: translateY(-2px);
+}
+
+@keyframes showup {
+    0% {transform: traslateY(-100%);}
+    70% {transform: traslateY(20%);}
+    100% {transform: traslateY(0);}
 }

@@ -3,7 +3,8 @@ class GameInfo {
         this.data = {
             score: 0,
             btn1: '처음부터',
-            btn2: '멈추기'
+            btn2: '멈추기',
+            disabledBtn2: false
         }
         this.onClickButton = onClickButton;
         this.ROOT = document.createElement('div');
@@ -18,6 +19,7 @@ class GameInfo {
         this.score.textContent = this.data.score;
         this.btn1.textContent = this.data.btn1;
         this.btn2.textContent = this.data.btn2;
+        this.btn2.disabled = this.data.disabledBtn2;
     }
 
     getScore = ()=> this.data.score;
@@ -27,8 +29,8 @@ class GameInfo {
             <div class='menu-box'>
                 <div class='score'>점수 : <span>${this.data.score}</span></div>
                 <div class='buttons'>
-                    <div class='btn' data-type='reset'>${this.data.btn1}</div>
-                    <div class='btn' data-type='stop'>${this.data.btn2}</div>
+                    <button class='btn' data-type='reset'>${this.data.btn1}</button>
+                    <button class='btn' data-type='stop' ${this.data.disabledBtn2 ? 'disabled' : ''}>${this.data.btn2}</button>
                 </div>
             </div>
         `;
